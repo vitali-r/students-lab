@@ -12,6 +12,11 @@ $  python -m venv .venv
 $ pip install -r requirements.txt
 ```
 
+#### Installing dependencies
+
+Delete all the empty.txt files from teplate, static and media folders
+it was done because git didn`t show the empty folders
+
 #### Run remote
 
 ```bash
