@@ -92,6 +92,7 @@ venv.bak/
 secret_settings.py
 .migrations
 .vscode
+settings.json
 # Spyder project settings
 .spyderproject
 .spyproject
