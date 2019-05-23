@@ -34,7 +34,7 @@ class Product(models.Model):
     price = models.DecimalField(default=0.00, max_digits=10, decimal_places=2) 
     description = models.TextField() 
     discount = models.PositiveIntegerField(default=0) 
-    ram = models.PositiveIntegerField() 
+    ram = models.PositiveIntegerField(blank=True)  # Random Access Memory
     color = models.CharField( 
         max_length = 2, 
         choices = COLOR_CHOICES, 
