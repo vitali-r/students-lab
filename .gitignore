@@ -96,7 +96,7 @@ venv.bak/
 
 # Rope project settings
 .ropeproject
-
+secret_settings.py
 # mkdocs documentation
 /site
 
