@@ -7,14 +7,12 @@ from .serializers import (ProductSerializer,
                           AttributeSerializer)
 from .models import Product, Brand, Category, Attribute, ProductAttribute
 from .permissions import IsAdminUserOrReadOnly
-from .pagination import ProductsResultSetPagination
 
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all().prefetch_related('product_attributes')
     serializer_class = ProductSerializer
     permission_classes = (IsAdminUserOrReadOnly, )
-    pagination_class = ProductsResultSetPagination
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
