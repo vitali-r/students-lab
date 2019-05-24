@@ -23,7 +23,7 @@ class Product(models.Model):
     price = models.DecimalField(default=0.00, max_digits=10, decimal_places=2)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     brand = models.ForeignKey(Brand, related_name='products' on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='photos/products', related_name='products', verbose_name='Product`s photo')
+    image = models.ImageField(upload_to='photos/products', verbose_name='Product`s photo')
 
     def __str__(self):
         return self.name
