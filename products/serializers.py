@@ -20,7 +20,7 @@ class ProductAttributeSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    product_attributes = ProductAttributeSerializer(many=True)
+    product_attributes = ProductAttributeSerializer(many=True, read_only=True)
 
     class Meta:
         model = Product
@@ -37,7 +37,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class BrandSerializer(serializers.ModelSerializer):
-    products = ProductSerializer(many=True)
+    products = ProductSerializer(many=True, read_only=True)
 
     class Meta:
         model = Brand
@@ -51,7 +51,7 @@ class BrandSerializer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    products = ProductSerializer(many=True)
+    products = ProductSerializer(many=True, read_only=True)
 
     class Meta:
         model = Category
