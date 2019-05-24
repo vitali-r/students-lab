@@ -35,7 +35,10 @@
 	<div id="preloder">
 		<div class="loader"></div>
 	</div>
-
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script type="module">
+		import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.esm.browser.js'
+	</script>
 	<!-- Header section -->
 	<header class="header-section">
 		<div class="header-top">
@@ -75,16 +78,18 @@
 			<div class="container">
 				<!-- menu -->
 				<ul class="main-menu">
-					<li><a href="#">Main Page</a></li>
-					<li><a href="#">Categories</a>
-						<ul class="sub-menu">
-							<li><a href="#">TV</a></li>
+					<li id="app"><a href="#">Categories</a>
+					<div v-for="result in results" class="sub-menu">
+						<ul v-for="attr in result" class="sub-menu">
+							<li v-html="attr.name"><a href="#"></li></a>	
 						</ul>
+					</div>
 					</li>
 					<li><a href="#">Brands</a>
 						<ul class="sub-menu">
 							<li><a href="#">Apple</a></li>
 							<li><a href="#">SAmsung</a></li>
+
 						</ul>
 					</li>
 				</ul>
@@ -215,7 +220,7 @@
 
 				<div class="col-lg-9  order-1 order-lg-2 mb-5 mb-lg-0">
 					<div class="row">
-						<div class="col-lg-4 col-sm-6">
+						<div class="col-lg-4 col-sm-6">	
 							<div class="product-item">
 								<div class="pi-pic">
 									<img src="#" alt="">
@@ -225,8 +230,8 @@
 									</div>
 								</div>
 								<div class="pi-text">
-									<h6>$0.00</h6>
-									<p>name</p>
+									<h6>10$</h6>
+									<p>aef</p>
 								</div>
 							</div>
 						</div>
@@ -242,20 +247,12 @@
 
 
 
-	<!-- Footer section -->
-	<section>
-		<div class="social-links-warp">
-			<div class="container">
-				<div class="social-links">
-					<a href="" class="instagram"><i class="fa fa-instagram"></i><span>instagram</span></a>
-					<a href="" class="facebook"><i class="fa fa-facebook"></i><span>facebook</span></a>
-				</div>
-			</div>
-		</div>
-	</section>
+	
 	<!-- Footer section end -->
 
-
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+ 	<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
 
 	<!--====== Javascripts & Jquery ======-->
 	<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
@@ -267,5 +264,21 @@
 	<script src="{% static 'js/jquery-ui.min.js' %}"></script>
 	<script src="{% static 'js/main.js' %}"></script>
 
+	
+	<script type="module">
+			new Vue({
+				el: '#app',
+				data() {
+				  return {
+					results: null
+				  };
+				},
+				mounted() {
+				  axios
+					.get('http://127.0.0.1:8000/api/categories/')
+					.then(response => (this.results = response.data));
+				}
+			  });
+	</script>
 	</body>
 </html>
