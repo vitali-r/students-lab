@@ -6,4 +6,5 @@ class Profile(models.Model):
     adress = models.CharField(max_length = 256, blank = True)
     phone = models.CharField(max_length = 18, default = '+')
     avatar = models.ImageField(upload_to = 'photos/profiles', verbose_name = 'User\'s photo')
+    zip_code = models.CharField(max_length = 12)
     user = models.OneToOneField(User, on_delete = models.CASCADE)
