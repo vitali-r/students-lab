@@ -7,10 +7,11 @@ from .serializers import (ProductSerializer,
                           AttributeSerializer)
 from .models import Product, Brand, Category, Attribute, ProductAttribute
 from .permissions import IsAdminUserOrReadOnly
+from django.views.generic import TemplateView
 
 
-def f(request):
-    return render(request, 'category.html')
+def products(request):
+    return render(request, 'products.html')
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -24,6 +25,10 @@ class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
     permission_classes = (IsAdminUserOrReadOnly, )
 
+class CategoryListViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes = (IsAdminUserOrReadOnly, )
 
 class BrandViewSet(viewsets.ModelViewSet):
     queryset = Brand.objects.all().prefetch_related('products')

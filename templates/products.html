@@ -78,18 +78,14 @@
 			<div class="container">
 				<!-- menu -->
 				<ul class="main-menu">
-					<li id="app"><a href="#">Categories</a>
-					<div v-for="result in results" class="sub-menu">
-						<ul v-for="attr in result" class="sub-menu">
-							<li v-html="attr.name"><a href="#"></li></a>	
+					<li id="categories"><a href="#">Categories</a>
+						<ul v-for="result in results" class="sub-menu">
+						<li><a href="#" v-for="attr in result" v-html="attr.name"></a></li>		
 						</ul>
-					</div>
 					</li>
-					<li><a href="#">Brands</a>
-						<ul class="sub-menu">
-							<li><a href="#">Apple</a></li>
-							<li><a href="#">SAmsung</a></li>
-
+					<li id="brands"><a href="#">Brands</a>
+						<ul v-for="result in results" class="sub-menu">
+							<li><a href="#" v-for="attr in result" v-html="attr.name"></a></li>
 						</ul>
 					</li>
 				</ul>
@@ -208,38 +204,32 @@
 							</div>
 						</div>
 					</div>
-					<div class="filter-widget">
-						<h2 class="fw-title">Brand</h2>
-						<ul class="category-menu">
-							<li><a href="#">Some Brand</a></li>
-							<li><a href="#">Some Brand</a></li>
-							<li><a href="#">Some Brand</a></li>
-						</ul>
-					</div>
 				</div>
-
-				<div class="col-lg-9  order-1 order-lg-2 mb-5 mb-lg-0">
+				
+				<div id="product" class="col-lg-9 order-1 order-lg-2 mb-5 mb-lg-0">
 					<div class="row">
-						<div class="col-lg-4 col-sm-6">	
-							<div class="product-item">
-								<div class="pi-pic">
-									<img src="#" alt="">
-									<div class="pi-links">
-										<a href="#" class="add-card"><i class="flaticon-bag"></i><span>ADD TO CART</span></a>
-										<a href="#" class="wishlist-btn"><i class="flaticon-heart"></i></a>
+						<template v-for="(value, index) in results.results">
+							<div class="col-lg-4 col-sm-6">
+								<div class="product-item">
+									<div class="pi-pic">
+										<img v-bind:src="value.image" alt="">
+										<div class="pi-links">
+											<a href="#" class="add-card"><i class="flaticon-bag"></i><span>ADD TO CART</span></a>
+										</div>
+									</div>
+									<div class="pi-text">
+										<h6 v-html="value.price">$</h6>
+										<p v-html="value.name">$</p>
 									</div>
 								</div>
-								<div class="pi-text">
-									<h6>10$</h6>
-									<p>aef</p>
-								</div>
 							</div>
-						</div>
+						</template>
 						<div class="text-center w-100 pt-3">
-							<button class="site-btn sb-line sb-dark">LOAD MORE</button>
-						</div>
+					<button class="site-btn sb-line sb-dark">LOAD MORE</button>
+				</div>
 					</div>
 				</div>
+				
 			</div>
 		</div>
 	</section>
@@ -267,7 +257,7 @@
 	
 	<script type="module">
 			new Vue({
-				el: '#app',
+				el: '#categories',
 				data() {
 				  return {
 					results: null
@@ -276,6 +266,36 @@
 				mounted() {
 				  axios
 					.get('http://127.0.0.1:8000/api/categories/')
+					.then(response => (this.results = response.data));
+				}
+			  });
+	</script>
+	<script type="module">
+			new Vue({
+				el: '#brands',
+				data() {
+				  return {
+					results: null
+				  };
+				},
+				mounted() {
+				  axios
+					.get('http://127.0.0.1:8000/api/brands/')
+					.then(response => (this.results = response.data));
+				}
+			  });
+	</script>
+	<script type="module">
+			new Vue({
+				el: '#product',
+				data() {
+				  return {
+					results: null
+				  };
+				},
+				mounted() {
+				  axios
+					.get('http://127.0.0.1:8000/api/products/')
 					.then(response => (this.results = response.data));
 				}
 			  });
