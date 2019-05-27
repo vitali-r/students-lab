@@ -9,6 +9,10 @@ from .models import Product, Brand, Category, Attribute, ProductAttribute
 from .permissions import IsAdminUserOrReadOnly
 
 
+def products(request):
+    return render(request, 'products.html')
+
+
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all().prefetch_related('product_attributes')
     serializer_class = ProductSerializer
