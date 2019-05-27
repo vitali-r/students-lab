@@ -25,10 +25,12 @@ class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
     permission_classes = (IsAdminUserOrReadOnly, )
 
+
 class CategoryListViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = (IsAdminUserOrReadOnly, )
+
 
 class BrandViewSet(viewsets.ModelViewSet):
     queryset = Brand.objects.all().prefetch_related('products')

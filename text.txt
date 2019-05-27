@@ -1,0 +1,18 @@
+
+		new Vue({
+			el: '#app',
+			data: {
+				results: null
+			},
+			methods: {
+				sendRequest() {
+					console.log(this.results.next);
+					axios.get(this.results.next).then(response => (this.results = response.data))
+				}
+			},
+			mounted() {
+				  axios
+					.get('http://127.0.0.1:8000/api/products/')
+					.then(response => (this.results = response.data));
+				}
+		})

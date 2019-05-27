@@ -68,6 +68,7 @@
 									<span>0</span>
 								</div>
 								<a href="#">Shopping Cart</a>
+							
 							</div>
 						</div>
 					</div>
@@ -99,10 +100,6 @@
 	<div class="page-top-info">
 		<div class="container">
 			<h4>Product PAge</h4>
-			<div class="site-pagination">
-				<a href="">Previous</a> /
-				<a href="">Next</a>
-			</div>
 		</div>
 	</div>
 	<!-- Page info end -->
@@ -113,26 +110,6 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-3 order-2 order-lg-1">
-					<div class="filter-widget">
-						<h2 class="fw-title">Categories</h2>
-						<ul class="category-menu">
-							<li><a href="#">Electronics</a>
-								<ul class="sub-menu">
-									<li><a href="#">TV</a></li>
-									<li><a href="#">TV</a></li>
-									<li><a href="#">TV</a></li>
-									<li><a href="#">TV</a></li>
-									<li><a href="#">TV</a></li>
-								</ul>
-							</li>
-							<li><a href="#">Cars</a>
-								<ul class="sub-menu">
-									<li><a href="#">AUDI</a></li>
-									<li><a href="#">AUDI</a></li>
-									<li><a href="#">AUDI</a></li>
-								</ul></li>
-						</ul>
-					</div>
 					<div class="filter-widget mb-0">
 						<h2 class="fw-title">refine by</h2>
 						<div class="price-range-wrap">
@@ -188,23 +165,24 @@
 						</div>
 					</div>
 					<div class="filter-widget mb-0">
-						<h2 class="fw-title">Some attribute</h2>
+						<h2 class="fw-title">RAM</h2>
 						<div class="fw-size-choose">
 							<div class="sc-item">
 								<input type="radio" name="sc" id="xs-size">
-								<label for="xs-size">Val</label>
+								<label for="xs-size">2</label>
 							</div>
 							<div class="sc-item">
 								<input type="radio" name="sc" id="s-size">
-								<label for="s-size">Val</label>
+								<label for="s-size">4</label>
 							</div>
 							<div class="sc-item">
 								<input type="radio" name="sc" id="m-size"  checked="">
-								<label for="m-size">Val</label>
+								<label for="m-size">8</label>
 							</div>
 						</div>
 					</div>
 				</div>
+				
 				
 				<div id="product" class="col-lg-9 order-1 order-lg-2 mb-5 mb-lg-0">
 					<div class="row">
@@ -224,15 +202,17 @@
 								</div>
 							</div>
 						</template>
-						<div class="text-center w-100 pt-3">
-					<button class="site-btn sb-line sb-dark">LOAD MORE</button>
-				</div>
 					</div>
+					<div>
+						<button @click="pageDown" v-show="results.previous">Previous</button>
+        		<button @click="nextPage" v-show="results.next">Next</button>
+    			</div>
 				</div>
 				
 			</div>
 		</div>
 	</section>
+
 	<!-- Category section end -->
 
 
@@ -243,6 +223,8 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
  	<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
+	<script src="//unpkg.com/vue"></script>
+	<script src="//unpkg.com/vue-plain-pagination"></script>
 
 	<!--====== Javascripts & Jquery ======-->
 	<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
@@ -290,14 +272,32 @@
 				el: '#product',
 				data() {
 				  return {
-					results: null
+					results: null,
+					pattern: '?page=',
+					page: 1,
 				  };
 				},
+				methods: {
+					renderProducts() {
+					console.log()
+					axios.get('http://127.0.0.1:8000/api/products/' + this.pattern + String(this.page)).then(response => (this.results = response.data));
+					},
+					nextPage() {
+					console.log(this.results.next);
+					this.page++
+					console.log(this.page);
+					axios.get(this.results.next).then(response => (this.results = response.data))
+			
+					},
+					pageDown() {
+						this.page--
+						axios.get(this.results.previous).then(response => (this.results = response.data))
+						
+					}
+				},
 				mounted() {
-				  axios
-					.get('http://127.0.0.1:8000/api/products/')
-					.then(response => (this.results = response.data));
-				}
+				 this.renderProducts()
+				},
 			  });
 	</script>
 	</body>
