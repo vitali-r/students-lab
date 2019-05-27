@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from products.models import Category, Brand, Product, Attribute, ProductAttribute
+from products.models import (Category, Brand, Product, Attribute,
+                             ProductAttribute)
 
 
 class AttributeSerializer(serializers.ModelSerializer):
@@ -13,9 +14,8 @@ class ProductAttributeSerializer(serializers.ModelSerializer):
         model = ProductAttribute
         fields = (
             'id',
-            'product',
             'attribute',
-            'value'
+            'value',
         )
 
 
@@ -31,7 +31,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'price',
             'image',
             'brand',
-            'category'
+            'category',
             'product_attributes'
         )
 
