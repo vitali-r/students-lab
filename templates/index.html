@@ -12,7 +12,7 @@
 
 	<!-- Google Font -->
 	<link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,300i,400,400i,700,700i" rel="stylesheet">
-
+	
 
 	<!-- Stylesheets -->
 	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"/>
@@ -41,6 +41,7 @@
 	<script type="module">
 		import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.esm.browser.js'
 	</script>
+	<script src="https://cdn.jsdelivr.net/npm/vue-carousel@0.6.5/dist/vue-carousel.min.js"></script>
 	<!-- Header section -->
 	<header class="header-section">
 		<div class="header-top">
@@ -89,7 +90,6 @@
 	<!-- Header section end -->
 
 
-
 	<!-- Hero section -->
 	<section id="brands" class="hero-section">
 		<div class="hero-slider owl-carousel" v-for="(value, index) in results.results">
@@ -101,11 +101,6 @@
 								<p v-html="value.description"></p>
 								<a href="#" class="site-btn sb-white">Brand`s Products</a>
 							</div>
-						</div>
-						<div class="offer-card text-white">
-							<span>best</span>
-							<h3>shop</h3>
-							<p>in-da town</p>
 						</div>
 					</div>
 				</div>
@@ -128,18 +123,18 @@
 			<div class="section-title">
 				<h2>Our Offers</h2>
 			</div>
-			<div class="product-slider owl-carousel">
-					<div class="product-item">
+			<div id="products" class="product-slider owl-carousel" >
+					<div class="product-item" v-for="(value,index) in results.results">
 						<div class="pi-pic">
-							<img v-bind:src="#" alt="">
+							<img v-bind:src="value.image" alt="">
 							<div class="pi-links">
 								<a href="#" class="add-card"><i class="flaticon-bag"></i><span>ADD TO CART</span></a>
 								<a href="#" class="wishlist-btn"><i class="flaticon-heart"></i></a>
 							</div>
 						</div>
 						<div class="pi-text">
-							<h6 v-html="#"></h6>
-							<p v-html="#"></p>
+							<h6 v-html="value.name"></h6>
+							<p v-html="value.price"></p>
 						</div>
 					</div>
 			</div>

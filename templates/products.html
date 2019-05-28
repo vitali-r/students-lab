@@ -144,8 +144,8 @@
 								</label>
 							</div>
 							<div class="cs-item">
-								<input type="radio" name="cs" id="yollow-color">
-								<label class="cs-yollow" for="yollow-color">
+								<input type="radio" name="cs" id="yellow-color">
+								<label class="cs-yellow" for="yellow-color">
 								</label>
 							</div>
 							<div class="cs-item">
@@ -159,7 +159,7 @@
 								</label>
 							</div>
 							<div class="cs-item">
-								<input type="radio" name="cs" id="blue-color" checked="">
+								<input type="radio" name="cs" id="blue-color">
 								<label class="cs-blue" for="blue-color">
 								</label>
 							</div>
@@ -275,18 +275,15 @@
 					results: null,
 					pattern: '?page=',
 					page: 1,
-					brand: null,
+					brands: null,
 				  };
 				},
 				methods: {
 					renderProducts() {
-					console.log()
 					axios.get('http://127.0.0.1:8000/api/products/' + this.pattern + String(this.page)).then(response => (this.results = response.data));
 					},
 					nextPage() {
-					console.log(this.results.next);
 					this.page++
-					console.log(this.page);
 					axios.get(this.results.next).then(response => (this.results = response.data))
 			
 					},
