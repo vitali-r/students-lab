@@ -87,7 +87,7 @@
 					</li>
 					<li id="brands"><a href="#">Brands</a>
 						<ul v-for="result in results" class="sub-menu">
-							<li v-on:click="filterBrand"><a href="#" v-for="attr in result" v-html="attr.name" ></a></li>
+							<li><a href="#" v-for="attr in result" v-html="attr.name"></a></li>
 						</ul>
 					</li>
 				</ul>
@@ -275,13 +275,14 @@
 					results: null,
 					pattern: '?page=',
 					page: 1,
-					brands: null,
 				  };
 				},
 				methods: {
 					renderProducts() {
 					axios.get('http://127.0.0.1:8000/api/products/' + this.pattern + String(this.page)).then(response => (this.results = response.data));
 					},
+					
+
 					nextPage() {
 					this.page++
 					axios.get(this.results.next).then(response => (this.results = response.data))
@@ -290,12 +291,11 @@
 					pageDown() {
 						this.page--
 						axios.get(this.results.previous).then(response => (this.results = response.data))
-						
 					}
 				},
 				mounted() {
 				 this.renderProducts()
-				},
+				}
 			  });
 	</script>
 	</body>
