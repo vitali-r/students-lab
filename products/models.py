@@ -37,7 +37,10 @@ class Attribute(models.Model):
 
 
 class ProductAttribute(models.Model):
-    product = models.ForeignKey(Product, related_name='product_attributes', on_delete=models.CASCADE)
+    product = models.ForeignKey(
+        Product,
+        related_name='product_attributes',
+        on_delete=models.CASCADE)
     attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE)
     value = models.CharField(max_length=100)
 

@@ -1,10 +1,8 @@
-from django.urls import path, include
 from rest_framework import routers
 from products.views import (CategoryViewSet,
                             BrandViewSet,
                             ProductViewSet,
-                            AttributeViewSet,
-                            ProductAttributeViewSet)
+                            AttributeViewSet)
 
 
 router = routers.DefaultRouter()
