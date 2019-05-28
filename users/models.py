@@ -10,11 +10,15 @@ class User(AbstractUser):
     address_home_number = models.CharField(max_length=10, blank=True)
     address_room_number = models.CharField(max_length=10, blank=True)
     phone = models.CharField(max_length=18)
-    avatar = models.ImageField(upload_to='photos/profiles', verbose_name='User\'s photo', blank=True)
+    avatar = models.ImageField(
+        upload_to='photos/profiles',
+        verbose_name='User\'s photo',
+        blank=True)
     zip_code = models.CharField(max_length=12, blank=True)
 
     def get_adress(self):
-        adress = self.address_home_number + ' ' + self.address_street + '\n' + self.address_city + '\n' + self.address_region + ' ' + self.zip_code + '\n' + self.address_country
+        adress = self.address_home_number + ' ' + self.address_street + '\n' + self.address_city + \
+            '\n' + self.address_region + ' ' + self.zip_code + '\n' + self.address_country
         if not(self.address_room_number == ''):
             adress = 'Apt. ' + self.address_room_number + ' ' + adress
         return adress
