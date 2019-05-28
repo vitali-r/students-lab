@@ -96,7 +96,7 @@ DATABASES = {
         'USER': 'student',
         'PASSWORD': 'database_password',
         'HOST': '127.0.0.1',
-        'PORT': 15432,
+        'PORT': 5432,
         'CONN_MAX_AGE': None,
     }
 }
