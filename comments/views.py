@@ -1,5 +1,4 @@
-from django.shortcuts import render
-from rest_framework import viewsets, mixins, generics
+from rest_framework import viewsets
 from comments.serializers import CommentsSerializer
 from comments.models import Comment
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
