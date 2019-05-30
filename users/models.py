@@ -22,3 +22,4 @@ class User(AbstractUser):
         if not(self.address_room_number == ''):
             adress = 'Apt. ' + self.address_room_number + ' ' + adress
         return adress
+        
