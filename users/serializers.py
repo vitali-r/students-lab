@@ -13,13 +13,6 @@ class UserSerializer(serializers.ModelSerializer):
         model = UserModel
         fields = ('username', 'password', 'password2', 'email')
     
-    def validate(self, data):
-        password_1 = data.get('password')
-        password_2 = data.pop('password2')
-        if not(password_1 == password_2):
-            raise serializers.ValidationError('Passwords mismatch')
-        return data
-    
     def create(self, validated_data):
         user_object = UserModel(
             username=validated_data.get('username'),
