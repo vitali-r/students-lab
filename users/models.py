@@ -3,6 +3,11 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
+    email = models.EmailField(
+        error_messages={'unique': 'This email adress is already used.'}, 
+        unique=True, 
+        max_length=254, 
+        verbose_name='email address')
     address_country = models.CharField(max_length=100, blank=True)
     address_region = models.CharField(max_length=100, blank=True)
     address_city = models.CharField(max_length=100, blank=True)
@@ -22,4 +27,7 @@ class User(AbstractUser):
         if not(self.address_room_number == ''):
             adress = 'Apt. ' + self.address_room_number + ' ' + adress
         return adress
+
+    def __str__(self):
+        return self.username
         
