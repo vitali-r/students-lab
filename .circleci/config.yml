@@ -5,12 +5,12 @@ jobs:
     working_directory: ~/circleci-students-lab
     docker:
     - image: circleci/python:3.6.4
-    #   environment:
-    #     DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
-    # - image: circleci/postgres:11
-    #   environment:
-    #     POSTGRES_USER: root
-    #     POSTGRES_DB: test
+      environment:
+        DATABASE_URL: postgresql://student@localhost/circle_test?sslmode=disable
+    - image: circleci/postgres:11
+      environment:
+        POSTGRES_USER: student
+        POSTGRES_DB: lab_db
     steps:
       - checkout
       - run: sudo chown -R circleci:circleci /usr/local/bin
@@ -31,12 +31,12 @@ jobs:
           name: run linting
           command: |
             python -m flake8
-      # - run:
-      #     name: run tests
-      #     command: |
-      #       python -m pytest
-      # - store_test_results:
-      #     path: test-results
-      # - store_artifacts:
-      #     path: test-results
-      #     destination: tr1
+      - run:
+          name: run tests
+          command: |
+            python -m pytest
+      - store_test_results:
+          path: test-results
+      - store_artifacts:
+          path: test-results
+          destination: tr1

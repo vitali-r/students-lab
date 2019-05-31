@@ -2,16 +2,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
-from rest_framework import routers
-from products.views import (CategoryViewSet,
-                            BrandViewSet,
-                            ProductViewSet,
-                            index,
-                            products)
+from products.views import products
 
 
 apipatterns = [
-    path('', include('products.urls'))
+    path('', include('products.urls')),
+    path('products/<int:product_id>/comments', include('comments.urls'))
 ]
 
 urlpatterns = [
