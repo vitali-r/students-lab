@@ -152,7 +152,7 @@ MEDIA_URL = '/media/'
 
 
 try:
-    from .secret_settings import *  # noqa
+    from secret_settings import *  # noqa
 except ImportError as e:
     import warnings
     warnings.warn(str(e))

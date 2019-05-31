@@ -235,6 +235,7 @@
 	<script src="{% static 'js/jquery.zoom.min.js' %}"></script>
 	<script src="{% static 'js/jquery-ui.min.js' %}"></script>
 	<script src="{% static 'js/main.js' %}"></script>
+	<script src="{% static 'js/const.js' %}"></script>
 
 	
 	<script type="module">
@@ -247,7 +248,7 @@
 				},
 				mounted() {
 				  axios
-					.get('http://127.0.0.1:8000/api/categories/')
+					.get(serverAddress + 'categories/')
 					.then(response => (this.results = response.data));
 				}
 			  });
@@ -262,7 +263,7 @@
 				},
 				mounted() {
 				  axios
-					.get('http://127.0.0.1:8000/api/brands/')
+					.get(serverAddress + 'brands/')
 					.then(response => (this.results = response.data));
 				}
 			  });
@@ -279,7 +280,7 @@
 				},
 				methods: {
 					renderProducts() {
-					axios.get('http://127.0.0.1:8000/api/products/' + this.pattern + String(this.page)).then(response => (this.results = response.data));
+					axios.get(serverAddress + 'products/' + this.pattern + String(this.page)).then(response => (this.results = response.data));
 					},
 					
 
