@@ -179,7 +179,7 @@
 				},
 				mounted() {
 				  axios
-					.get('http://127.0.0.1:8000/api/products/1/')
+					.get(serverAddress + 'products/1/')
 					.then(response => (this.results = response.data));
 				}
 			  });
