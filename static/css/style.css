@@ -1419,16 +1419,16 @@ ol {
 	background: #6f91ff;
 }
 
-.fw-color-choose label.cs-yollow {
-	background: #6f91ff;
+.fw-color-choose label.cs-yellow {
+	background:yellow;
 }
 
 .fw-color-choose label.cs-green {
 	background: #8fc99c;
 }
 
-.fw-color-choose label.cs-purple {
-	background: #bc83b1;
+.fw-color-choose label.cs-black {
+	background: black;
 }
 
 .fw-color-choose label.cs-blue {
