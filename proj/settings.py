@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_filters',
     'products',
     'users',
     'comments',
@@ -52,7 +53,8 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 6
+    'PAGE_SIZE': 6,
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
 }
 
 
@@ -151,7 +153,7 @@ MEDIA_URL = '/media/'
 
 
 try:
-    from .secret_settings import *  # noqa
+    from secret_settings import *  # noqa
 except ImportError as e:
     import warnings
     warnings.warn(str(e))
