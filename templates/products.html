@@ -79,6 +79,7 @@
 			<div class="container">
 				<!-- menu -->
 				<ul class="main-menu">
+					<li><a href="{% url 'index' %}">Main Page</a></li>
 					<li id="categories"><a href="#">Categories</a>
 						<ul v-for="result in results" class="sub-menu">
 						<li><a href="#" v-for="attr in result" v-html="attr.name"></a></li>		
@@ -143,8 +144,8 @@
 								</label>
 							</div>
 							<div class="cs-item">
-								<input type="radio" name="cs" id="yollow-color">
-								<label class="cs-yollow" for="yollow-color">
+								<input type="radio" name="cs" id="yellow-color">
+								<label class="cs-yellow" for="yellow-color">
 								</label>
 							</div>
 							<div class="cs-item">
@@ -158,7 +159,7 @@
 								</label>
 							</div>
 							<div class="cs-item">
-								<input type="radio" name="cs" id="blue-color" checked="">
+								<input type="radio" name="cs" id="blue-color">
 								<label class="cs-blue" for="blue-color">
 								</label>
 							</div>
@@ -224,7 +225,6 @@
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
  	<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
 	<script src="//unpkg.com/vue"></script>
-	<script src="//unpkg.com/vue-plain-pagination"></script>
 
 	<!--====== Javascripts & Jquery ======-->
 	<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
@@ -235,6 +235,7 @@
 	<script src="{% static 'js/jquery.zoom.min.js' %}"></script>
 	<script src="{% static 'js/jquery-ui.min.js' %}"></script>
 	<script src="{% static 'js/main.js' %}"></script>
+	<script src="{% static 'js/const.js' %}"></script>
 
 	
 	<script type="module">
@@ -247,7 +248,7 @@
 				},
 				mounted() {
 				  axios
-					.get('http://127.0.0.1:8000/api/categories/')
+					.get(serverAddress + 'categories/')
 					.then(response => (this.results = response.data));
 				}
 			  });
@@ -262,7 +263,7 @@
 				},
 				mounted() {
 				  axios
-					.get('http://127.0.0.1:8000/api/brands/')
+					.get(serverAddress + 'brands/')
 					.then(response => (this.results = response.data));
 				}
 			  });
@@ -279,25 +280,23 @@
 				},
 				methods: {
 					renderProducts() {
-					console.log()
-					axios.get('http://127.0.0.1:8000/api/products/' + this.pattern + String(this.page)).then(response => (this.results = response.data));
+					axios.get(serverAddress + 'products/' + this.pattern + String(this.page)).then(response => (this.results = response.data));
 					},
+					
+
 					nextPage() {
-					console.log(this.results.next);
 					this.page++
-					console.log(this.page);
 					axios.get(this.results.next).then(response => (this.results = response.data))
 			
 					},
 					pageDown() {
 						this.page--
 						axios.get(this.results.previous).then(response => (this.results = response.data))
-						
 					}
 				},
 				mounted() {
 				 this.renderProducts()
-				},
+				}
 			  });
 	</script>
 	</body>
