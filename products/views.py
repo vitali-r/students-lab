@@ -7,6 +7,7 @@ from .serializers import (ProductSerializer,
                           AttributeSerializer)
 from .models import Product, Brand, Category, Attribute, ProductAttribute
 from .permissions import IsAdminUserOrReadOnly
+from rest_framework import filters
 
 
 def index(request):
@@ -17,10 +18,16 @@ def products(request):
     return render(request, 'products.html')
 
 
+def single(request):
+    return render(request, 'single.html')
+
+
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all().prefetch_related('product_attributes')
     serializer_class = ProductSerializer
     permission_classes = (IsAdminUserOrReadOnly, )
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('name', 'price')
     filterset_fields = ('brand',)
 
 
@@ -45,6 +52,6 @@ class AttributeViewSet(viewsets.ModelViewSet):
 
 
 class ProductAttributeViewSet(viewsets.ModelViewSet):
-    queryset = ProductAttribute.objects.all()
+    queryset = ProductAttribute.objects.all().values('attribute')
     serializer_class = ProductAttributeSerializer
     permission_classes = (IsAdminUserOrReadOnly, )

@@ -80,6 +80,7 @@
 				<!-- menu -->
 				<ul class="main-menu">
 					<li><a href="{% url 'index' %}">Main Page</a></li>
+					<li><a href="{% url 'single' %}">Single Page</a></li>
 					<li id="categories"><a href="#">Categories</a>
 						<ul v-for="result in results" class="sub-menu">
 						<li><a href="#" v-for="attr in result" v-html="attr.name"></a></li>		

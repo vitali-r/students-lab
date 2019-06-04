@@ -1,15 +1,18 @@
 from rest_framework import serializers
 from products.models import (Category, Brand, Product, Attribute,
                              ProductAttribute)
+from comments.serializers import CommentsSerializer
 
 
 class AttributeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Attribute
-        fields = ('id', 'name')
+        fields = ('name',)
 
 
 class ProductAttributeSerializer(serializers.ModelSerializer):
+    attribute = AttributeSerializer()
+
     class Meta:
         model = ProductAttribute
         fields = (

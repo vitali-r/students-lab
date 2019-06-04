@@ -40,6 +40,10 @@
 	<script type="module">
 		import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.esm.browser.js'
 	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+ 	<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
+	<script src="//unpkg.com/vue"></script>
 	<!-- Header section -->
 	<header class="header-section">
 		<div class="header-top">
@@ -99,47 +103,47 @@
 	<!-- product section -->
 	<section class="product-section">
 		<div id="product" class="container">
-			<div class="back-link">
-				<a href="./category.html"> &lt;&lt; Back to Category</a>
-			</div>
-			<div  class="row">
-				<div class="col-lg-6">
-					<div class="product-pic-zoom">
-						<img class="product-big-img" v-bind:src="results.image" alt="">
-					</div>
+				<div class="back-link">
+					<a href="{% url 'products' %}"> &lt;&lt; Back to Products</a>
 				</div>
-				<div class="col-lg-6 product-details">
-					<h2 class="p-title" v-html="results.name"></h2>
-					<h3 class="p-price" v-html="results.price"></h3>
-					<div class="p-review">
-						<a href="">3 reviews</a>|<a href="">Add your review</a>
+				<div  class="row">
+					<div class="col-lg-6">
+						<div class="product-pic-zoom">
+							<img class="product-big-img" v-bind:src="results.image" alt="">
+						</div>
 					</div>
-					<a href="#" class="site-btn">SHOP NOW</a>
-					<div id="accordion" class="accordion-area">
-						<div class="panel">
-							<div class="panel-header" id="headingOne">
-								<button class="panel-link active" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1">information</button>
+					<div class="col-lg-6 product-details">
+						<h2 class="p-title" v-html="results.name"></h2>
+						<h3 class="p-price" v-html="results.price"></h3>
+						<div class="p-review">
+							<a href="">Add your review</a>
+						</div>
+						<a href="#" class="site-btn">SHOP NOW</a>
+						<div id="accordion" class="accordion-area">
+							<div class="panel">
+								<div class="panel-header" id="headingOne">
+									<button class="panel-link active" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1">information</button>
+								</div>
+								<div id="collapse1" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+									<div class="panel-body">
+										<p v-html="results.description"></p>
+									</div>
+								</div>
 							</div>
-							<div id="collapse1" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-								<div class="panel-body">
-									<p v-html="results.description"></p>
+							<div class="panel">
+								<div class="panel-header" id="headingTwo">
+									<button class="panel-link" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">Reviews</button>
+								</div>
+								<div id="collapse2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+									<div class="panel-body">
+										<p>There mark goes</p>
+										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pharetra tempor so dales. Phasellus sagittis auctor gravida. Integer bibendum sodales arcu id te mpus. Ut consectetur lacus leo, non scelerisque nulla euismod nec.</p>
+									</div>
 								</div>
 							</div>
 						</div>
-						<div class="panel">
-							<div class="panel-header" id="headingTwo">
-								<button class="panel-link" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">Reviews</button>
-							</div>
-							<div id="collapse2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-								<div class="panel-body">
-									<p>There mark goes</p>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pharetra tempor so dales. Phasellus sagittis auctor gravida. Integer bibendum sodales arcu id te mpus. Ut consectetur lacus leo, non scelerisque nulla euismod nec.</p>
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
-			</div>
 		</div>
 	</section>
 	<!-- product section end -->
@@ -154,10 +158,7 @@
 
 
 	<!--====== Javascripts & Jquery ======-->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
- 	<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
-	<script src="//unpkg.com/vue"></script>
+	
 
 	<!--====== Javascripts & Jquery ======-->
 	<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
@@ -168,6 +169,7 @@
 	<script src="{% static 'js/jquery.zoom.min.js' %}"></script>
 	<script src="{% static 'js/jquery-ui.min.js' %}"></script>
 	<script src="{% static 'js/main.js' %}"></script>
+	<script src="{% static 'js/const.js' %}"></script>
 
 	<script type="module">
 			new Vue({
@@ -179,7 +181,7 @@
 				},
 				mounted() {
 				  axios
-					.get(serverAddress + 'products/1/')
+					.get(serverAddress + 'products/12/')
 					.then(response => (this.results = response.data));
 				}
 			  });
