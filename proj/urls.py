@@ -15,7 +15,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include((apipatterns, 'api'), namespace='api')),
     path('', index, name='index'),
-    path('products/', products, name='products')
+    path('products/', products, name='products'),
     path('', include('users.urls'), name='users'),
     path('api/auth/', obtain_jwt_token),
     path('api/auth/refresh', refresh_jwt_token)
