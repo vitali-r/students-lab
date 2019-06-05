@@ -3,7 +3,7 @@ from django.conf import settings
 from products.models import Product
 
 
-class Order(models.Model):  
+class Order(models.Model):
     STANDART_DELIVERY = 'Standart'
     NEXT_DAY_DELIVERY = 'Next day'
     DEFAULT_ADDRESS = 'Default'
@@ -32,7 +32,7 @@ class Order(models.Model):
         (IN_PROGRESS, 'In progress'),
         (COMPLETE, 'Complete')
     )
-    ordering_date = models.DateTimeField(auto_now_add=True)    
+    ordering_date = models.DateTimeField(auto_now_add=True)
     which_address = models.CharField(
         max_length=255,
         choices=ADDRESS_CHOICES,
