@@ -30,10 +30,10 @@ class Order(models.Model):
         (IN_PROGRESS, 'In progress'),
         (COMPLETE, 'Complete')
     )
-    ordering_date = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     use_default_address = models.BooleanField(default=False)
     address = models.CharField(max_length=255, blank=True)
-    phone = models.CharField(max_length=10)
+    phone = models.CharField(max_length=25)
     payment_method = models.CharField(
         max_length=25,
         choices=PAYMENT_CHOICES,
@@ -43,10 +43,14 @@ class Order(models.Model):
         choices=DELIVERY_CHOICES,
         default=STANDART_DELIVERY)
     status = models.CharField(max_length=25, choices=STATUS_CHOICES, default=SUBMITTED)
-    total_price = models.DecimalField(default=0.00, max_digits=10, decimal_places=2, editable=False)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
 
     def __str__(self):
-        return 'Order {}'.format(self.id)
+        return 'Order {}, creation time: {}, status: {}, customer phone: {}'.format(
+            self.id,
+            self.created_at,
+            self.status,
+            self.phone)
 
 
 class CartItem(models.Model):
@@ -55,5 +59,12 @@ class CartItem(models.Model):
     quantity = models.PositiveIntegerField(default=1)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
 
+    @property
+    def item_price(self):
+        return round(self.product.price * self.quantity, 2)
+
     def __str__(self):
-        return self.product.name
+        return 'Item with {} {}, price - {}'.format(
+            self.quantity,
+            self.product.name,
+            self.item_price)
