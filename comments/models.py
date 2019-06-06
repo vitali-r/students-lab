@@ -27,7 +27,7 @@ class Comment(models.Model):
     product = models.ForeignKey(Product, related_name='comments', on_delete=models.CASCADE)
 
     def __str__(self):
-        return "Comment on product - {}, added by user - {}".format(self.product, self.user.user)
+        return self.mark
 
     class Meta:
         verbose_name = "Comment"

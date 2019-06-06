@@ -27,7 +27,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     permission_classes = (IsAdminUserOrReadOnly, )
     filter_backends = (filters.SearchFilter,)
-    search_fields = ('name', 'price')
+    search_fields = ('name',)
     filterset_fields = ('brand',)
 
 
@@ -52,6 +52,6 @@ class AttributeViewSet(viewsets.ModelViewSet):
 
 
 class ProductAttributeViewSet(viewsets.ModelViewSet):
-    queryset = ProductAttribute.objects.all().values('attribute')
+    queryset = ProductAttribute.objects.all()
     serializer_class = ProductAttributeSerializer
     permission_classes = (IsAdminUserOrReadOnly, )
