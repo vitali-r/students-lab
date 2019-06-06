@@ -13,5 +13,3 @@ class CommentsViewSet(viewsets.ModelViewSet):
         product_id = self.kwargs.get('product_id')
         queryset = Comment.objects.filter(product_id=product_id)
         return queryset
-
-    
