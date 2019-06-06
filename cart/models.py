@@ -6,18 +6,14 @@ from products.models import Product
 class Order(models.Model):
     STANDART_DELIVERY = 'Standart'
     NEXT_DAY_DELIVERY = 'Next day'
-    DEFAULT_ADDRESS = 'Default'
-    DIFFERENT_ADDRESS = 'Different'
+    SUBMITTED = 'Submitted'
+    APPROVED = 'Approved'
     IN_PROGRESS = 'In progress'
     COMPLETE = 'Complete'
     PAYPAL = 'Paypal'
     QIWI = 'Qiwi'
     CARD = 'Card'
     CASH = 'Cash'
-    ADDRESS_CHOICES = (
-        (DEFAULT_ADDRESS, 'Use my default address'),
-        (DIFFERENT_ADDRESS, 'Use a different address')
-    )
     PAYMENT_CHOICES = (
         (PAYPAL, 'Paypal'),
         (CARD, 'Card'),
@@ -29,15 +25,14 @@ class Order(models.Model):
         (NEXT_DAY_DELIVERY, 'Next day delivery')
     )
     STATUS_CHOICES = (
+        (SUBMITTED, 'Submitted'),
+        (APPROVED, 'Approved'),
         (IN_PROGRESS, 'In progress'),
         (COMPLETE, 'Complete')
     )
     ordering_date = models.DateTimeField(auto_now_add=True)
-    which_address = models.CharField(
-        max_length=255,
-        choices=ADDRESS_CHOICES,
-        default=DEFAULT_ADDRESS)
-    address = models.CharField(max_length=255)
+    use_default_address = models.BooleanField(default=False)
+    address = models.CharField(max_length=255, blank=True)
     phone = models.CharField(max_length=10)
     payment_method = models.CharField(
         max_length=25,
@@ -47,9 +42,11 @@ class Order(models.Model):
         max_length=25,
         choices=DELIVERY_CHOICES,
         default=STANDART_DELIVERY)
-    status = models.CharField(max_length=25, choices=STATUS_CHOICES, default=IN_PROGRESS)
-    total_price = models.PositiveIntegerField(editable=False, default=0)
-
+    status = models.CharField(max_length=25, choices=STATUS_CHOICES, default=SUBMITTED)
+    total_price = models.DecimalField(default=0.00, max_digits=10, decimal_places=2, editable=False)
+    
+    def __str__(self):
+        return 'Order {}'.format(self.id)
 
 class CartItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
