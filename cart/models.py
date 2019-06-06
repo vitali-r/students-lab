@@ -44,9 +44,10 @@ class Order(models.Model):
         default=STANDART_DELIVERY)
     status = models.CharField(max_length=25, choices=STATUS_CHOICES, default=SUBMITTED)
     total_price = models.DecimalField(default=0.00, max_digits=10, decimal_places=2, editable=False)
-    
+
     def __str__(self):
         return 'Order {}'.format(self.id)
+
 
 class CartItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
