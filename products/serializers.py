@@ -24,6 +24,7 @@ class ProductAttributeSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     product_attributes = ProductAttributeSerializer(many=True, read_only=True)
+    comments = CommentsSerializer(many=True)
 
     class Meta:
         model = Product
@@ -35,7 +36,8 @@ class ProductSerializer(serializers.ModelSerializer):
             'image',
             'brand',
             'category',
-            'product_attributes'
+            'product_attributes',
+            'comments',
         )
 
 

@@ -7,7 +7,7 @@ from products.views import products, index, single
 
 apipatterns = [
     path('', include('products.urls')),
-    path('products/<int:product_id>/comments', include('comments.urls'))
+    path('products/<int:product_id>/', include('comments.urls'))
 ]
 
 urlpatterns = [
