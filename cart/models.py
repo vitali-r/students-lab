@@ -63,6 +63,12 @@ class CartItem(models.Model):
     def item_price(self):
         return round(self.product.price * self.quantity, 2)
 
+    def save(self, *args, **kwargs):
+        order_to_add_total = Order.objects.get(pk=self.order.id)
+        order_to_add_total.total_price += self.item_price
+        order_to_add_total.save()
+        super(CartItem, self).save(*args, **kwargs)
+
     def __str__(self):
         return 'Item with {} {}, price - {}'.format(
             self.quantity,
