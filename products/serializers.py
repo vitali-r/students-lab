@@ -2,7 +2,6 @@ from rest_framework import serializers
 from products.models import (Category, Brand, Product, Attribute,
                              ProductAttribute)
 from comments.serializers import CommentsSerializer
-from users.serializers import UserSerializer
 
 
 class AttributeSerializer(serializers.ModelSerializer):
@@ -17,7 +16,6 @@ class ProductAttributeSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductAttribute
         fields = (
-            'id',
             'attribute',
             'value',
         )
