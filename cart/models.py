@@ -47,7 +47,7 @@ class Order(models.Model):
 
     def save(self, *args, **kwargs):
         order = Order.objects.get(pk=self.id)
-        for item in order.item.all():
+        for item in order.items.all():
             self.total_price += item.item_price
         super(Order, self).save(*args, **kwargs)
 
@@ -68,7 +68,7 @@ class CartItem(models.Model):
         on_delete=models.CASCADE,
         null=True,
         blank=True,
-        related_name='item')
+        related_name='items')
 
     @property
     def item_price(self):
