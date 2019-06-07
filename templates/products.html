@@ -2,6 +2,7 @@
 <html lang="zxx">
 <head>
 {% load static %}
+
 	<title>Divisima | eCommerce Template</title>
 	<meta charset="UTF-8">
 	<meta name="description" content=" Divisima | eCommerce Template">
@@ -192,13 +193,13 @@
 							<div class="col-lg-4 col-sm-6">
 								<div class="product-item">
 									<div class="pi-pic">
-										<img v-bind:src="value.image" alt="">
+										<img href="#" v-bind:src="value.image" alt="">
 										<div class="pi-links">
 											<a href="#" class="add-card"><i class="flaticon-bag"></i><span>ADD TO CART</span></a>
 										</div>
 									</div>
 									<div class="pi-text">
-										<h6 v-html="value.price">$</h6>
+										<h6 v-html="value.price"></h6>
 										<p v-html="value.name">$</p>
 									</div>
 								</div>

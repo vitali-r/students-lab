@@ -128,23 +128,8 @@
 	<script src="{% static 'js/jquery.zoom.min.js' %}"></script>
 	<script src="{% static 'js/jquery-ui.min.js' %}"></script>
 	<script src="{% static 'js/main.js' %}"></script>
+	<script src="{% static 'js/const.js' %}"></script>
 
-
-	<script type="module">
-			new Vue({
-				el: '#products',
-				data() {
-				  return {
-					results: null
-				  };
-				},
-				mounted() {
-				  axios
-					.get(serverAddress + 'products/')
-					.then(response => (this.results = response.data));
-				}
-			  });
-	</script>
 
 	<script type="module">
 			new Vue({
