@@ -3,14 +3,6 @@ from django.conf import settings
 from products.models import Product
 
 
-class Promocode(models.Model):
-    promo_code = models.CharField(max_length=25)
-    discount = models.PositiveIntegerField(default=0)
-
-    def __str__(self):
-        return 'Promo code for a {}% discount'.format(self.discount)
-
-
 class Order(models.Model):
     STANDART_DELIVERY = 'Standart'
     NEXT_DAY_DELIVERY = 'Next day'
@@ -51,8 +43,13 @@ class Order(models.Model):
         choices=DELIVERY_CHOICES,
         default=STANDART_DELIVERY)
     status = models.CharField(max_length=25, choices=STATUS_CHOICES, default=SUBMITTED)
-    promo_code = models.CharField(max_length=25)
-    total_price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def save(self, *args, **kwargs):
+        order = Order.objects.get(pk=self.id)
+        for item in order.item.all():
+            self.total_price += item.item_price
+        super(Order, self).save(*args, **kwargs)
 
     def __str__(self):
         return 'Order {}, creation time: {}, status: {}, customer phone: {}'.format(
@@ -66,20 +63,16 @@ class CartItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='item')
 
     @property
     def item_price(self):
         return round(self.product.price * self.quantity, 2)
-
-    def save(self, *args, **kwargs):
-        order = Order.objects.get(pk=self.order.id)
-        promocode = Promocode.objects.get(promo_code=order.promo_code)
-        order.total_price += self.item_price
-        if promocode.promo_code == order.promo_code:
-            order.total_price = round(order.total_price * (100 - promocode.discount) / 100, 2)
-        order.save()
-        super(CartItem, self).save(*args, **kwargs)
 
     def __str__(self):
         return 'Item with {} {}, price - {}'.format(
