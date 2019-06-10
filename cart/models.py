@@ -43,13 +43,7 @@ class Order(models.Model):
         choices=DELIVERY_CHOICES,
         default=STANDART_DELIVERY)
     status = models.CharField(max_length=25, choices=STATUS_CHOICES, default=SUBMITTED)
-    total_price = models.DecimalField(max_digits=10, decimal_places=2)
-
-    def save(self, *args, **kwargs):
-        order = Order.objects.get(pk=self.id)
-        for item in order.items.all():
-            self.total_price += item.item_price
-        super(Order, self).save(*args, **kwargs)
+    total_price = models.DecimalField(default=0.0, max_digits=10, decimal_places=2)
 
     def __str__(self):
         return 'Order {}, creation time: {}, status: {}, customer phone: {}'.format(
