@@ -30,8 +30,8 @@ ALLOWED_HOSTS = []
 AUTH_USER_MODEL = 'users.User'
 
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.mail.ru'
-EMAIL_HOST_USER = 'projectlab73@mail.ru'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'evievievievi99@gmail.com'
 EMAIL_HOST_PASSWORD = 'qwertyQWERTY!@#$%^'
 EMAIL_PORT = 587
 
