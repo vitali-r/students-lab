@@ -1,11 +1,10 @@
-from django.shortcuts import render, get_object_or_404
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth import get_user_model
 from .serializers import UserSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from .tokens import account_activation_token
@@ -26,7 +25,7 @@ def activate(request, uidb64, token):
             return HttpResponse(render_to_string('failed_activation.html'))
     except(TypeError, ValueError, OverflowError, user_model.DoesNotExist):
         return HttpResponse(render_to_string('failed_activation.html'))
-    
+
 
 class RegistrationView(APIView):
     user_model = get_user_model()
@@ -43,7 +42,7 @@ class RegistrationView(APIView):
                 'username': user.username,
                 'domaim': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': account_activation_token.make_token(user),               
+                'token': account_activation_token.make_token(user),
             })
             sending_address = user.email
             email = EmailMessage(mail_subject, message, to=[sending_address])
