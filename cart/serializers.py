@@ -35,11 +35,12 @@ class OrderSerializer(serializers.ModelSerializer):
         read_only_fields = ('total_price', 'status')
 
     def create(self, validated_data):
-        user_id = self.context['view'].kwargs.get('user_id')
-        items = CartItem.objects.filter(user=user_id).all()
+        user = self.context['request'].user
+        items = user.items.all()
         order = Order.objects.create(**validated_data)
-        print(items)
-        if len(items) != 0:
+        if not items:
+            raise serializers.ValidationError("Cart is empty")
+        else:
             order.total_price = 0
             for item in items:
                 order.total_price += item.item_price
@@ -47,4 +48,3 @@ class OrderSerializer(serializers.ModelSerializer):
                 item.save()
             order.save()
             return order
-        raise serializers.ValidationError("Cart is empty")
