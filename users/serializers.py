@@ -20,7 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
         fields = ('username', 'password', 'password2', 'email')
-    
+
     def create(self, validated_data):
         user_object = UserModel(
             username=validated_data.get('username'),
