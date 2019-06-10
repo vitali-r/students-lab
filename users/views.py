@@ -49,4 +49,4 @@ class RegistrationView(APIView):
             email = EmailMessage(mail_subject, message, to=[sending_address])
             email.send()
             return HttpResponse(render_to_string('after_registration.html'))
-        return Response(user.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
