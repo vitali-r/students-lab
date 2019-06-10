@@ -40,6 +40,7 @@
 	<script type="module">
 		import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.esm.browser.js'
 	</script>
+	<script src="https://unpkg.com/vuex@2.0.0"></script>
 	<!-- Header section -->
 	<header class="header-section">
 		<div class="header-top">
@@ -52,10 +53,8 @@
 						</a>
 					</div>
 					<div class="col-xl-6 col-lg-5">
-						<form class="header-search-form">
-							<input type="text" placeholder="Search on divisima ....">
-							<button><i class="flaticon-search"></i></button>
-						</form>
+						
+						
 					</div>
 					<div class="col-xl-4 col-lg-5">
 						<div class="user-panel">
@@ -95,6 +94,8 @@
 				</ul>
 			</div>
 		</nav>
+	
+		
 	</header>
 	<!-- Header section end -->
 
@@ -189,7 +190,7 @@
 				
 				<div id="product" class="col-lg-9 order-1 order-lg-2 mb-5 mb-lg-0">
 					<div class="row">
-						<template v-for="(value, index) in results.results">
+						<template v-for="(value, index) in results.results" v-bind:id="value.id">
 							<div class="col-lg-4 col-sm-6">
 								<div class="product-item">
 									<div class="pi-pic">
@@ -200,7 +201,7 @@
 									</div>
 									<div class="pi-text">
 										<h6 v-html="value.price"></h6>
-										<p v-html="value.name">$</p>
+										<p v-html="value.name"></p>
 									</div>
 								</div>
 							</div>
@@ -208,16 +209,21 @@
 					</div>
 					<div>
 						<button @click="pageDown" v-show="results.previous">Previous</button>
-        		<button @click="nextPage" v-show="results.next">Next</button>
-    			</div>
+        				<button @click="nextPage" v-show="results.next">Next</button>
+					</div>
+					<form class="header-search-form">
+							<input type="text" placeholder="Search on divisima ...." v-model="lookup" v-on:input="searchItems" v-on:change="searchItems">
+							
+					</form>
 				</div>
-				
 			</div>
 		</div>
 	</section>
 
 	<!-- Category section end -->
 
+
+	
 
 
 	
@@ -277,6 +283,8 @@
 				  return {
 					results: null,
 					pattern: '?page=',
+					search_pattern: '?search=',
+					lookup: null,
 					page: 1,
 				  };
 				},
@@ -294,7 +302,10 @@
 					pageDown() {
 						this.page--
 						axios.get(this.results.previous).then(response => (this.results = response.data))
-					}
+					},
+					searchItems() {
+						axios.get(serverAddress + 'products/' + this.search_pattern + String(this.lookup)).then(response => (this.results = response.data));
+					},
 				},
 				mounted() {
 				 this.renderProducts()
