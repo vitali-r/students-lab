@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from cart.models import CartItem, Order
-from django.conf import settings
 
 
 class CartItemSerializer(serializers.ModelSerializer):
@@ -11,12 +10,13 @@ class CartItemSerializer(serializers.ModelSerializer):
             'user',
             'product',
             'quantity',
-            'item_price'
+            'item_price',
+            'order'
         )
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    cartitems = CartSerializer(many=True, read_only=True)
+    cartitems = CartItemSerializer(many=True, read_only=True)
 
     class Meta:
         model = Order
