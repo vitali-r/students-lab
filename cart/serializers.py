@@ -38,16 +38,21 @@ class OrderSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = self.context['request'].user
         items = user.items.filter(is_ordered=False).all()
-        validated_data['total_price'] = 0
-        validated_data['user'] = user
-        order = Order.objects.create(**validated_data)
+
         if not items:
             raise serializers.ValidationError("Cart is empty")
-        else:
-            for item in items:
-                order.total_price += item.item_price
-                item.order = order
-                item.is_ordered = True
-                item.save()
-            order.save()
-            return order
+
+        total_price = 0
+        for item in items:
+            total_price += item.item_price
+
+        validated_data['total_price'] = total_price
+        validated_data['user'] = user
+        order = Order.objects.create(
+            **validated_data
+        )
+
+        items.update(order_id=order.id)
+        items.update(is_ordered=True)
+
+        return order
