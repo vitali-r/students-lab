@@ -16,12 +16,13 @@ class CartItemSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    cartitems = CartItemSerializer(many=True, read_only=True)
+    items = CartItemSerializer(many=True, read_only=True)
 
     class Meta:
         model = Order
         fields = (
             'id',
+            'user',
             'created_at',
             'use_default_address',
             'payment_method',
@@ -30,14 +31,15 @@ class OrderSerializer(serializers.ModelSerializer):
             'status',
             'total_price',
             'address',
-            'cartitems'
+            'items'
         )
-        read_only_fields = ('total_price', 'status')
+        read_only_fields = ('total_price', 'status', 'user')
 
     def create(self, validated_data):
         user = self.context['request'].user
-        items = user.items.all()
+        items = user.items.filter(is_ordered=False).all()
         validated_data['total_price'] = 0
+        validated_data['user'] = user
         order = Order.objects.create(**validated_data)
         if not items:
             raise serializers.ValidationError("Cart is empty")
@@ -45,6 +47,7 @@ class OrderSerializer(serializers.ModelSerializer):
             for item in items:
                 order.total_price += item.item_price
                 item.order = order
+                item.is_ordered = True
                 item.save()
             order.save()
             return order
