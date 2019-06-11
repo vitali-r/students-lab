@@ -10,6 +10,8 @@ from django.core.mail import EmailMessage
 from .tokens import account_activation_token
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
+from rest_framework_jwt.views import JSONWebTokenAPIView
+from .serializers import CustomJSONWebTokenSerializer
 
 
 def activate(request, uidb64, token):
@@ -18,7 +20,7 @@ def activate(request, uidb64, token):
         uid = force_text(urlsafe_base64_decode(uidb64))
         user = user_model.objects.get(pk=uid)
         if account_activation_token.check_token(user, token):
-            user.is_active = True
+            user.email_confirmed = True
             user.save()
             return HttpResponse(render_to_string('after_confirmation.html'))
         else:
@@ -28,14 +30,13 @@ def activate(request, uidb64, token):
 
 
 class RegistrationView(APIView):
-    user_model = get_user_model()
     permission_classes = (permissions.AllowAny,)
     serializer_class = UserSerializer
 
     def post(self, request, format=None):
-        data = UserSerializer(data=request.data)
-        if data.is_valid():
-            user = data.save()
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
             current_site = get_current_site(request)
             mail_subject = 'Account activation'
             message = render_to_string('activation_message.html', {
@@ -49,3 +50,7 @@ class RegistrationView(APIView):
             email.send()
             return HttpResponse(render_to_string('after_registration.html'))
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class ObtainCustomJSONWebToken(JSONWebTokenAPIView):
+    serializer_class = CustomJSONWebTokenSerializer

@@ -20,15 +20,11 @@ class User(AbstractUser):
         verbose_name='User\'s photo',
         blank=True)
     zip_code = models.CharField(max_length=12, blank=True)
-    is_active = models.BooleanField(
-        default=False,
-        help_text='Designates whether this user should be treated as active. \
-            Unselect this instead of deleting accounts.',
-        verbose_name='active')
+    email_confirmed = models.BooleanField(default=False)
 
     def get_adress(self):
         address = '{0} {1}\n{2}\n{3} {4}\n{5}'.format(
-            self.address_home,
+            self.address_home_number,
             self.address_street,
             self.address_city,
             self.address_region,

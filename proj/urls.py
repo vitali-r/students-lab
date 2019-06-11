@@ -3,7 +3,8 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from products.views import products, index
-from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
+from rest_framework_jwt.views import refresh_jwt_token
+from users.views import ObtainCustomJSONWebToken
 
 
 apipatterns = [
@@ -17,7 +18,7 @@ urlpatterns = [
     path('', index, name='index'),
     path('products/', products, name='products'),
     path('', include('users.urls'), name='users'),
-    path('api/auth/', obtain_jwt_token),
+    path('api/auth/', ObtainCustomJSONWebToken.as_view()),
     path('api/auth/refresh', refresh_jwt_token)
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
