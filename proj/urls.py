@@ -2,12 +2,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
-from products.views import products, index, single
+from products.views import (products, index,
+                            products_detail)
 
 
 apipatterns = [
     path('', include('products.urls')),
-    path('products/<int:product_id>/', include('comments.urls'))
 ]
 
 urlpatterns = [
@@ -16,6 +16,6 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('', index, name='index'),
     path('products/', products, name='products'),
-    path('single/', single, name='single'),
+    path('products/<int:product_id>/', products_detail, name='products_detail'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -18,8 +18,9 @@ def products(request):
     return render(request, 'products.html')
 
 
-def single(request):
-    return render(request, 'single.html')
+def products_detail(request, product_id):
+    product = Product.objects.get(pk=product_id)
+    return render(request, 'products.html', {'product': product})
 
 
 class ProductViewSet(viewsets.ModelViewSet):

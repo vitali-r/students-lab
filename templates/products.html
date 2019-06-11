@@ -50,7 +50,6 @@
 				<!-- menu -->
 				<ul class="main-menu">
 					<li><a href="{% url 'index' %}">Main Page</a></li>
-					<li><a href="{% url 'single' %}">Single Page</a></li>
 					<li id="categories"><a href="#">Categories</a>
 						<ul v-for="result in results" class="sub-menu">
 						<li><a href="#" v-for="attr in result" v-html="attr.name"></a></li>		
@@ -171,31 +170,25 @@
 									</div>
 									<div class="pi-text">
 										<h6 v-html="value.price"></h6>
-										<p v-html="value.name"></p>
+										<a v-bind:href="'/products/' + value.id" @click="renderSingle" v-html="value.name"></a>
 									</div>
 								</div>
 							</div>
 						</template>
 					</div>
 					<div>
-						<button @click="pageDown" v-show="results.previous">Previous</button>
-        				<button @click="nextPage" v-show="results.next">Next</button>
+						<button class="add-card" @click="pageDown" v-show="results.previous">Previous</button>
+        				<button class="add-card" @click="nextPage" v-show="results.next">Next</button>
 					</div>
+					<hr>
 					<form class="header-search-form">
-							<input type="text" placeholder="Search on divisima ...." v-model="lookup" v-on:input="searchItems" v-on:change="searchItems">
-							
+						<input type="text" placeholder="Search on divisima ...." v-model="lookup" v-on:input="searchItems" v-on:change="searchItems">	
 					</form>
 				</div>
+				
 			</div>
 		</div>
 	</section>
-
-	<!-- Category section end -->
-
-
-	
-
-
 	
 
 	
@@ -207,6 +200,7 @@
 					results: null
 				  };
 				},
+				
 				mounted() {
 				  axios
 					.get(serverAddress + 'categories/')
@@ -245,8 +239,6 @@
 					renderProducts() {
 					axios.get(serverAddress + 'products/' + this.pattern + String(this.page)).then(response => (this.results = response.data));
 					},
-					
-
 					nextPage() {
 					this.page++
 					axios.get(this.results.next).then(response => (this.results = response.data))
@@ -259,12 +251,16 @@
 					searchItems() {
 						axios.get(serverAddress + 'products/' + this.search_pattern + String(this.lookup)).then(response => (this.results = response.data));
 					},
+					renderSingle() {
+						axios.get(serverAddress + 'products/' + value.id).then(response => (this.results = response.data));
+					}
 				},
 				mounted() {
 				 this.renderProducts()
 				}
 			  });
 	</script>
+
 	{% endblock %}
 	</body>
 </html>
