@@ -21,6 +21,9 @@ class User(AbstractUser):
         blank=True)
     zip_code = models.CharField(max_length=12, blank=True)
     email_confirmed = models.BooleanField(default=False)
+    username = models.CharField(max_length=150, verbose_name='username')
+    REQUIRED_FIELDS = ['username']
+    USERNAME_FIELD = 'email'
 
     def get_adress(self):
         address = '{0} {1}\n{2}\n{3} {4}\n{5}'.format(
