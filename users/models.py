@@ -14,7 +14,7 @@ class User(AbstractUser):
     address_street = models.CharField(max_length=100, blank=True)
     address_home_number = models.CharField(max_length=10, blank=True)
     address_room_number = models.CharField(max_length=10, blank=True)
-    phone = models.CharField(max_length=18)
+    phone = models.CharField(max_length=18, blank=True)
     avatar = models.ImageField(
         upload_to='photos/profiles',
         verbose_name='User\'s photo',
