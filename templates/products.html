@@ -170,7 +170,7 @@
 									</div>
 									<div class="pi-text">
 										<h6 v-html="value.price"></h6>
-										<a v-bind:href="'/products/' + value.id" @click="renderSingle" v-html="value.name"></a>
+										<a v-bind:href="'/products/' + value.id" v-html="value.name"></a>
 									</div>
 								</div>
 							</div>
@@ -251,13 +251,10 @@
 					searchItems() {
 						axios.get(serverAddress + 'products/' + this.search_pattern + String(this.lookup)).then(response => (this.results = response.data));
 					},
-					renderSingle() {
-						axios.get(serverAddress + 'products/' + value.id).then(response => (this.results = response.data));
-					}
 				},
-				mounted() {
-				 this.renderProducts()
-				}
+					mounted() {
+					this.renderProducts()
+					}
 			  });
 	</script>
 

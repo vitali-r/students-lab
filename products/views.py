@@ -20,7 +20,7 @@ def products(request):
 
 def products_detail(request, product_id):
     product = Product.objects.get(pk=product_id)
-    return render(request, 'products.html', {'product': product})
+    return render(request, 'single.html', {'product': product})
 
 
 class ProductViewSet(viewsets.ModelViewSet):

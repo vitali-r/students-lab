@@ -136,20 +136,25 @@
 	<!-- product section end -->
 
 	<script type="module">
-			new Vue({
-				el: '#product',
-				data() {
-				  return {
-					results: null
-				  };
-				},
-				mounted() {
-				  axios
-					.get(serverAddress + 'products/12/')
-					.then(response => (this.results = response.data));
+		new Vue({
+			el: '#product',
+			data() {
+			  return {
+				results: null,	
+			  };
+			},
+			methods: {
+				renderSingle() {
+					var current = window.location.pathname;
+					current = current.substring(1);
+					axios.get(serverAddress + current).then(response => (this.results = response.data));
 				}
-			  });
-	</script>
+			},
+				mounted() {
+				this.renderSingle()
+				}
+		  });
+</script>
 {% endblock %}
 	</body>
 </html>
