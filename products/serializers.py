@@ -1,19 +1,21 @@
 from rest_framework import serializers
 from products.models import (Category, Brand, Product, Attribute,
                              ProductAttribute)
+from comments.serializers import CommentsSerializer
 
 
 class AttributeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Attribute
-        fields = ('id', 'name')
+        fields = ('name',)
 
 
 class ProductAttributeSerializer(serializers.ModelSerializer):
+    attribute = AttributeSerializer()
+
     class Meta:
         model = ProductAttribute
         fields = (
-            'id',
             'attribute',
             'value',
         )
@@ -21,6 +23,7 @@ class ProductAttributeSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     product_attributes = ProductAttributeSerializer(many=True, read_only=True)
+    comments = CommentsSerializer(many=True)
 
     class Meta:
         model = Product
@@ -32,7 +35,8 @@ class ProductSerializer(serializers.ModelSerializer):
             'image',
             'brand',
             'category',
-            'product_attributes'
+            'product_attributes',
+            'comments',
         )
 
 
