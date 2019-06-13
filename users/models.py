@@ -21,7 +21,7 @@ class User(AbstractUser):
         blank=True)
     zip_code = models.CharField(max_length=12, blank=True)
     email_confirmed = models.BooleanField(default=False)
-    username = models.CharField(max_length=150, verbose_name='username')
+    username = models.CharField(max_length=150, blank=True, verbose_name='username')
     REQUIRED_FIELDS = ['username']
     USERNAME_FIELD = 'email'
 
