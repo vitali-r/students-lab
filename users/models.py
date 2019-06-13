@@ -14,16 +14,20 @@ class User(AbstractUser):
     address_street = models.CharField(max_length=100, blank=True)
     address_home_number = models.CharField(max_length=10, blank=True)
     address_room_number = models.CharField(max_length=10, blank=True)
-    phone = models.CharField(max_length=18)
+    phone = models.CharField(max_length=18, blank=True)
     avatar = models.ImageField(
         upload_to='photos/profiles',
         verbose_name='User\'s photo',
         blank=True)
     zip_code = models.CharField(max_length=12, blank=True)
+    email_confirmed = models.BooleanField(default=False)
+    username = models.CharField(max_length=150, verbose_name='username')
+    REQUIRED_FIELDS = ['username']
+    USERNAME_FIELD = 'email'
 
-    def get_adress(self):
+    def get_address(self):
         address = '{0} {1}\n{2}\n{3} {4}\n{5}'.format(
-            self.address_home,
+            self.address_home_number,
             self.address_street,
             self.address_city,
             self.address_region,
