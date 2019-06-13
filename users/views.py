@@ -1,9 +1,9 @@
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth import get_user_model
-from .serializers import UserSerializer
+from .serializers import UserSerializer, ProfileSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, permissions
+from rest_framework import status, permissions, viewsets
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from .tokens import account_activation_token
@@ -12,6 +12,7 @@ from django.utils.encoding import force_bytes, force_text
 from rest_framework_jwt.views import JSONWebTokenAPIView
 from .serializers import CustomJSONWebTokenSerializer
 from django.http import HttpResponse
+from django.shortcuts import render
 
 
 def activate(request, uidb64, token):
@@ -33,6 +34,11 @@ def activate(request, uidb64, token):
         return HttpResponse(render_to_string(
             'info_message.html',
             {'message': 'Your link is invalid!'}))
+
+
+def users_detail(request, user_id):
+    user = get_user_model().objects.get(pk=user_id)
+    return render(request, 'user_page.html', {'user': user, 'address': user.get_address()})
 
 
 class RegistrationView(APIView):
