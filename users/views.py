@@ -23,15 +23,15 @@ def activate(request, uidb64, token):
             user.email_confirmed = True
             user.save()
             return HttpResponse(render_to_string(
-                'info_message.html', 
+                'info_message.html',
                 {'message': 'You have successfully activated your account. Now you can sign in.'}))
         else:
             return HttpResponse(render_to_string(
-                'info_message.html', 
+                'info_message.html',
                 {'message': 'Your link is invalid!'}))
     except(TypeError, ValueError, OverflowError, user_model.DoesNotExist):
         return HttpResponse(render_to_string(
-            'info_message.html', 
+            'info_message.html',
             {'message': 'Your link is invalid!'}))
 
 
