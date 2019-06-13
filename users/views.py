@@ -13,6 +13,7 @@ from rest_framework_jwt.views import JSONWebTokenAPIView
 from .serializers import CustomJSONWebTokenSerializer
 from django.http import HttpResponse
 
+
 def activate(request, uidb64, token):
     user_model = get_user_model()
     try:
@@ -22,12 +23,16 @@ def activate(request, uidb64, token):
             user.email_confirmed = True
             user.save()
             return HttpResponse(render_to_string(
-                'info_message.html', {
-                'message': 'You have successfully activated your account. Now you can sign in.'}))
+                'info_message.html', 
+                {'message': 'You have successfully activated your account. Now you can sign in.'}))
         else:
-            return HttpResponse(render_to_string('info_message.html', {'message': 'Your link is invalid!'}))
+            return HttpResponse(render_to_string(
+                'info_message.html', 
+                {'message': 'Your link is invalid!'}))
     except(TypeError, ValueError, OverflowError, user_model.DoesNotExist):
-        return HttpResponse(render_to_string('info_message.html', {'message': 'Your link is invalid!'}))
+        return HttpResponse(render_to_string(
+            'info_message.html', 
+            {'message': 'Your link is invalid!'}))
 
 
 class RegistrationView(APIView):
@@ -50,8 +55,9 @@ class RegistrationView(APIView):
             email = EmailMessage(mail_subject, message, to=[sending_address])
             email.send()
             return HttpResponse(render_to_string(
-                'info_message.html', 
-                {'message': 'Thank you for choosing our company. Please confirm your email address to complete the registration.'}))
+                'info_message.html',
+                {'message': 'Thank you for choosing our company. \
+                     Please confirm your email address to complete the registration.'}))
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
