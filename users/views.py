@@ -51,18 +51,17 @@ def users_detail(request, user_id):
 class UpdateProfileView(generics.UpdateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = ChangeProfileSerializer
-    user = get_user_model()
 
     def get_queryset(self):
+        user = get_user_model()
         user_id = self.kwargs.get('user_id')
         requested_user = user.objects.get(pk=user_id)
-        if request.user.email == requested_user.email or request.user.is_staff:
+        if self.request.user.email == requested_user.email or self.request.user.is_staff:
             queryset = user.objects.filter(id=user_id)
             return queryset
         return HttpResponse(render_to_string(
             'info_message.html',
             {'message': 'Changes are successfully saved.'}))
-
 
 
 class RegistrationView(APIView):
