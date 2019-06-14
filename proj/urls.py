@@ -10,6 +10,7 @@ from users.views import ObtainCustomJSONWebToken
 
 apipatterns = [
     path('', include('products.urls')),
+    path('profile/cart/', include('cart.urls'))
 ]
 
 urlpatterns = [

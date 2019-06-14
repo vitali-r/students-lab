@@ -44,12 +44,10 @@ class Order(models.Model):
         default=STANDART_DELIVERY)
     status = models.CharField(max_length=25, choices=STATUS_CHOICES, default=SUBMITTED)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
-
-    def save(self, *args, **kwargs):
-        order = Order.objects.get(pk=self.id)
-        for item in order.items.all():
-            self.total_price += item.item_price
-        super(Order, self).save(*args, **kwargs)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='orders')
 
     def __str__(self):
         return 'Order {}, creation time: {}, status: {}, customer phone: {}'.format(
@@ -60,7 +58,10 @@ class Order(models.Model):
 
 
 class CartItem(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
     order = models.ForeignKey(
