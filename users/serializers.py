@@ -23,7 +23,7 @@ class CustomJSONWebTokenSerializer(JSONWebTokenSerializer):
                     msg = _('User account is disabled.')
                     raise serializers.ValidationError(msg)
                 if not user.email_confirmed:
-                    msg = _('Email is not varified.')
+                    msg = _('Email is not verified.')
                     raise serializers.ValidationError(msg)
                 payload = jwt_payload_handler(user)
                 return {
@@ -62,3 +62,17 @@ class UserSerializer(serializers.ModelSerializer):
         user_object.set_password(validated_data['password'])
         user_object.save()
         return user_object
+
+
+class ChangeProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserModel
+        exclude = (
+            'email',
+            'email_confirmed',
+            'groups',
+            'user_permissions',
+            'is_staff',
+            'is_active',
+            'is_superuser',
+            'password')

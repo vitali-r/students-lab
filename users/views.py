@@ -1,9 +1,9 @@
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth import get_user_model
-from .serializers import UserSerializer
+from .serializers import UserSerializer, ChangeProfileSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, permissions
+from rest_framework import status, permissions, generics
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from .tokens import account_activation_token
@@ -12,6 +12,7 @@ from django.utils.encoding import force_bytes, force_text
 from rest_framework_jwt.views import JSONWebTokenAPIView
 from .serializers import CustomJSONWebTokenSerializer
 from django.http import HttpResponse
+from django.shortcuts import render
 
 
 def activate(request, uidb64, token):
@@ -33,6 +34,34 @@ def activate(request, uidb64, token):
         return HttpResponse(render_to_string(
             'info_message.html',
             {'message': 'Your link is invalid!'}))
+
+
+def users_detail(request, user_id):
+    user = get_user_model().objects.get(pk=user_id)
+    change_permission = False
+    if request.user.email == user.email or request.user.is_staff:
+        change_permission = True
+    return render(request, 'user_page.html', {
+        'user': user,
+        'address': user.get_address(),
+        'name': user.get_full_name(),
+        'change_permission': change_permission})
+
+
+class UpdateProfileView(generics.UpdateAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = ChangeProfileSerializer
+
+    def get_queryset(self):
+        user = get_user_model()
+        user_id = self.kwargs.get('user_id')
+        requested_user = user.objects.get(pk=user_id)
+        if self.request.user.email == requested_user.email or self.request.user.is_staff:
+            queryset = user.objects.filter(id=user_id)
+            return queryset
+        return HttpResponse(render_to_string(
+            'info_message.html',
+            {'message': 'Changes are successfully saved.'}))
 
 
 class RegistrationView(APIView):
