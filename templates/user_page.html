@@ -1,4 +1,36 @@
-username: {{ user.username }}
-address: {{ address }}
-email: {{ user.email }}
-avatar: {{ user.avatar }}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-carousel@0.6.5/dist/vue-carousel.min.js"></script>
+    <div id="user">
+        avatar: {{ user.avatar }}<br>
+        username: {{ user.username }}<br>
+        name: {{ name }}<br>
+        address: {{ address }}<br>
+        email: {{ user.email }}<br>
+
+        <button v-if="{{ change_permission }}" v-on:click="changeProfile">Change</button>
+    </div>
+    <script type="module">
+        new Vue({
+            el: '#user',
+            methods: {
+                changeProfile() {
+                    axios.get(window.location.href + "change");
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

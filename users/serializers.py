@@ -64,9 +64,15 @@ class UserSerializer(serializers.ModelSerializer):
         return user_object
 
 
-class ProfileSerializer(serializers.ModelSerializer):
-    address = serializers.CharField(source='get_address', read_only='True')
-
+class ChangeProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
-        exclude = ('email', 'email_confirmed')
+        exclude = (
+            'email',
+            'email_confirmed',
+            'groups',
+            'user_permissions',
+            'is_staff',
+            'is_active',
+            'is_superuser',
+            'password')
