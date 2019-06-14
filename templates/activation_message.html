@@ -1,0 +1,9 @@
+{% autoescape off %}
+Hello, dear {{username}}
+You are registered on our site http://www.api.com with this email address.
+Please follow the link bellow to end registration.
+
+http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+
+If you are not registered on our site don't do anything.
+{% endautoescape %}

@@ -1,8 +1,9 @@
 from comments.views import CommentsViewSet
-from django.conf.urls import url
+from rest_framework import routers
 
 
-urlpatterns = [
-    url(r'list', CommentsViewSet.as_view({'get': 'list'}), name='comments-list'),
-    url(r'add', CommentsViewSet.as_view({'post': 'create'}), name='add-comment')
-]
+router = routers.DefaultRouter()
+router.register(r'', CommentsViewSet, basename='comments')
+
+
+urlpatterns = router.urls
