@@ -37,7 +37,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = self.context['request'].user
-        items = user.items.filter(is_ordered=False).all()
+        items = user.items.filter(order=None).all()
 
         if not items:
             raise serializers.ValidationError("Cart is empty")
@@ -53,6 +53,5 @@ class OrderSerializer(serializers.ModelSerializer):
         )
 
         items.update(order_id=order.id)
-        items.update(is_ordered=True)
 
         return order

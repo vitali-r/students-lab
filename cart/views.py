@@ -14,7 +14,7 @@ class CartViewSet(DestroyModelMixin, ListModelMixin, GenericViewSet):
     permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
-        qs = self.queryset.filter(user_id=self.request.user).filter(is_ordered=False)
+        qs = self.queryset.filter(user=self.request.user, order=None)
         return qs
 
 
@@ -28,5 +28,5 @@ class OrderViewSet(CreateModelMixin,
     permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
-        qs = self.queryset.filter(user_id=self.request.user)
+        qs = self.queryset.filter(user=self.request.user)
         return qs
